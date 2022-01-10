@@ -2,7 +2,7 @@
 
 
 let arr, gen, nth, arrss, sm
-let col 
+let col
 let current = 0
 let f = false
 
@@ -12,31 +12,31 @@ function setup() {
   arr = randomArray(150)
   col = windowWidth / arr.length
   createCanvas(arr.length * (col + 5) + col / 2, 800);
-  gen = selectionSort()
+  gen = bubbleSort()
 
   let slider = createSlider(0, 150)
   slider.input(() => {
     noLoop();
     f = false;
     arr = randomArray(slider.value());
-    col = windowWidth / (1.5*arr.length)
+    col = windowWidth / (1.5 * arr.length)
     resizeCanvas(arr.length * (col + 5) + col / 2, 800)
-    
+
   })
 
   let btn = createButton('sort')
-  btn.mousePressed(() => {f = true;loop(); gen = selectionSort()})
+  btn.mousePressed(() => { f = true; loop(); gen = bubbleSort() })
 
 
 }
 
 function draw() {
-  
+
   background('lightblue')
 
   displayArrayContents(arr)
-  if(f)
-  gen.next()
+  if (f)
+    gen.next()
 }
 
 
@@ -60,28 +60,17 @@ function* bubbleSort() {
 }
 
 function* selectionSort() {
-  let smallest 
+  let smallest
   for (let min = 0; min < arr.length; min++) {
     smallest = min
-    for (let j = min + 1; j < arr.length; j++) {
-     
+    for (let j = min + 1; j < arr.length; j++)
+      if (arr[j] < arr[smallest]) smallest = j
 
-      if (arr[j] < arr[smallest])
-        smallest = j
-      
-       
-      
-    }
-    sm = smallest 
-  
     swap(arr, min, smallest)
+    sm = smallest
     current = min
-
     yield
-    
-
   }
-  
 }
 
 
@@ -103,7 +92,7 @@ function displayArrayContents(arr) {
 
     if (i == current)
       fill('green')
-      if (i == sm)
+    if (i == sm)
       fill('purple')
 
 
@@ -122,65 +111,3 @@ function randomArray(size) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-// function SelectionSort(toSort) {
-//   this.arr = toSort
-//   this.min = 0
-//   this.current = 1
-//   this.outerIndex = 0
-//   this.smallest = 1
-
-// }
-
-
-
-
-
-
-// SelectionSort.prototype.sort = function () {
-//   if (this.outerIndex < this.arr.length) {
-//     if (this.current < this.arr.length) {
-
-//       if (this.arr[this.min] > this.arr[this.current]) {
-//         smallest = this.current
-//       }
-
-//       if (this.current == this.arr.length - 1) {
-//         swap(this.arr, this.min, smallest)
-//         this.min++
-//         this.current = this.min
-//         this.outerIndex++
-//       }
-//       else
-//         this.current++
-//     }
-
-//   }
-// }
-
-
-// SelectionSort.prototype.displayArrayContents = function () {
-//   for (let i = 0; i < this.arr.length; i++) {
-
-//     noStroke()
-//     fill(255, 255 - this.arr[i] * 3, 100)
-
-//     if (i == this.current)
-//       fill('green')
-//     if (this.min == i && i != this.arr.length - 1)
-//       fill('purple')
-
-//     rect(5 + i * (col + 5), height - this.arr[i] * 10, col, this.arr[i] * 10)
-//   }
-// }
