@@ -10,7 +10,8 @@
 ######################################################################
 
 ##custom 
-*.jsconfig.json
+jsconfig.json
+old
 
 ## node.js
 node_modules
