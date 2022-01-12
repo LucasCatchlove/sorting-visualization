@@ -7,27 +7,37 @@ let current = 0
 let f = false
 
 function setup() {
+
   noLoop()
   frameRate(60)
-  arr = randomArray(150)
-  col = windowWidth / arr.length
-  createCanvas(arr.length * (col + 5) + col / 2, 800);
+ 
+
+  arr = randomArray(20)
+  //arr = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -9, 3, 4]
+
+  col = (windowWidth) / arr.length
+
+  let canvas = createCanvas(arr.length * (col + 5) + col / 2, 800);
+  canvas.parent('canvas-container')
+
+
   gen = bubbleSort()
 
-  let slider = createSlider(0, 150)
-  slider.input(() => {
+  let slider = createSlider(10, 100, 20)
+  slider.input(function () {
     noLoop();
     f = false;
     arr = randomArray(slider.value());
     col = windowWidth / (1.5 * arr.length)
     resizeCanvas(arr.length * (col + 5) + col / 2, 800)
-
   })
 
-  let btn = createButton('sort')
-  btn.mousePressed(() => { f = true; loop(); gen = bubbleSort() })
-
-
+  let btn = createButton('selection sort')
+  btn.mousePressed(() => { f = true; loop(); gen = selectionSort() })
+  let btn2 = createButton('bubble sort')
+  btn2.mousePressed(() => { f = true; loop(); gen = bubbleSort() })
+  let btn3 = createButton('insertion sort')
+  btn3.mousePressed(() => { f = true; loop(); gen = insertionSort() })
 }
 
 function draw() {
@@ -52,6 +62,7 @@ function* bubbleSort() {
       if (arr[i] < arr[i - 1]) {
         swap(arr, i, i - 1)
         swapped = true
+        yield
       }
       yield
     }
@@ -73,8 +84,43 @@ function* selectionSort() {
   }
 }
 
+function* insertionSort() {
+  for (let curr = 1; curr < arr.length; curr++) {
+    current = curr
 
+    if (arr[curr] < arr[curr - 1]) {
+      let position = curr - 1
 
+      for (let j = curr - 2; j >= 0; j--) {
+        sm = j
+        if (arr[curr] < arr[j]) {
+          position = j
+          yield
+        }
+        
+      }
+      insert(position, curr)
+      current = position
+      yield
+      
+    }
+  }
+
+}
+
+function insert(position, current) {
+  let currentEl = arr[current]
+
+  for (let i = current; i > position; i--) {
+    arr[i] = arr[i - 1]
+    
+  }
+  
+ 
+
+  arr[position] = currentEl
+ 
+}
 
 function swap(arr, a, b) {
   console.log('yo')
@@ -82,7 +128,6 @@ function swap(arr, a, b) {
   arr[a] = arr[b]
   arr[b] = temp
 }
-
 
 function displayArrayContents(arr) {
   for (let i = 0; i < arr.length; i++) {
