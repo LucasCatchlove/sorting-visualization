@@ -2,9 +2,11 @@
 
 
 let arr, gen, nth, arrss, sm
-let col
+let col = 10
 let current = 0
 let f = false
+
+
 
 function setup() {
 
@@ -12,7 +14,7 @@ function setup() {
   frameRate(60)
  
 
-  arr = randomArray(20)
+  arr = randomArray(500)
   //arr = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -9, 3, 4]
 
   col = (windowWidth) / arr.length
@@ -30,6 +32,7 @@ function setup() {
     arr = randomArray(slider.value());
     col = windowWidth / (1.5 * arr.length)
     resizeCanvas(arr.length * (col + 5) + col / 2, 800)
+    draw()
   })
 
   let btn = createButton('selection sort')
@@ -43,7 +46,6 @@ function setup() {
 function draw() {
 
   background('lightblue')
-
   displayArrayContents(arr)
   if (f)
     gen.next()
@@ -66,7 +68,7 @@ function* bubbleSort() {
       }
       yield
     }
-    n = n - 1
+    n--
   }
 }
 
@@ -97,6 +99,7 @@ function* insertionSort() {
           position = j
           yield
         }
+        else break
         
       }
       insert(position, curr)
@@ -110,20 +113,16 @@ function* insertionSort() {
 
 function insert(position, current) {
   let currentEl = arr[current]
-
-  for (let i = current; i > position; i--) {
-    arr[i] = arr[i - 1]
-    
-  }
-  
- 
-
+  for (let i = current; i > position; i--) arr[i] = arr[i - 1]
   arr[position] = currentEl
- 
+}
+
+
+function mergeSort() {
+  
 }
 
 function swap(arr, a, b) {
-  console.log('yo')
   let temp = arr[a]
   arr[a] = arr[b]
   arr[b] = temp
@@ -140,8 +139,6 @@ function displayArrayContents(arr) {
     if (i == sm)
       fill('purple')
 
-
-
     rect(5 + i * (col + 5), height - arr[i] * 10, col, arr[i] * 10)
   }
 }
@@ -149,7 +146,7 @@ function displayArrayContents(arr) {
 function randomArray(size) {
   let arr = []
   for (let i = 0; i < size; i++) {
-    arr.push(floor(random(0, 75)))
+    arr.push(floor(random(1, 75)))
   }
   return arr
 }

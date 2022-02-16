@@ -12,3 +12,10 @@ canvas {
 #canvas-container {
   margin: 2% auto 2% auto;
 }
+
+pre {
+  color: white; 
+  font-weight: bold;
+  font-size: 1.5em;
+  margin: 0 auto;
+}
